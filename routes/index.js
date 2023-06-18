@@ -1,15 +1,10 @@
 import express from 'express';
+import * as AuthRouter from './AuthRoutes/index';
 
 const router = express.Router();
 
-router.get("/",(req,res)=>{
-    console.log("Express Routings");
-    res.send("hello express routing");
-});
+router.get("/login",AuthRouter.loginRouter);
 
-router.get("/hello",(req,res)=>{
-    console.log("The /hello router");
-    res.send("Hello /hello Router");
-})
+router.get("/signup",AuthRouter.signupRouter);
 
 export default router;
