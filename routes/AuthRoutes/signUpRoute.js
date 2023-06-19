@@ -1,9 +1,10 @@
 import express from 'express';
+import { signupService } from '../../services/user';
 
 const signupRouter = express.Router();
 
-signupRouter.get("/signup",(req,res)=>{
-    res.send("/signup Route. User should sign up");
+signupRouter.post("/signup",(req,res)=>{
+    signupService(req,res);
 });
 
 export default signupRouter;
