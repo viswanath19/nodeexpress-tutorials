@@ -1,9 +1,10 @@
 import express from 'express';
-
+import { loginService } from '../../services';
 const loginRouter = express.Router();
 
 loginRouter.get("/login",(req,res)=>{
-    res.send("/login Route. User should be logging in");
+    console.log("Entered to login Router");
+    loginService(req,res);
 });
 
 export default loginRouter;

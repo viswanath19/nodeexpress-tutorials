@@ -3,7 +3,12 @@ import router from './routes';
 import connection from './middlewares/db';
 const app = express();
 
-app.use(()=>connection);
+app.use((req,res,next)=>{
+    req.db = connection;
+    next();
+});
+
+app.use(express.json());
 
 app.use(router);
 

@@ -1,17 +1,20 @@
-const mysql = require('mysql2');
+var typeorm = require("typeorm");
 
-const connection = mysql.createConnection({
-    host: '127.0.0.1',
-    port: '3306',
-    user: 'root',
-    password: 'root'
+const dataSource = new typeorm.DataSource({
+    type: "mysql",
+    host: "127.0.0.1",
+    port: 3306,
+    username: "root",
+    password: "root",
+    database: "nodeexpresstutauth",
+    synchronize: true,
+    entities: [require("../entity/users")],
 });
 
-connection.connect((err)=>{
-    if(err) {
-        console.error("Error occurred while connecting to mysql db", err);
-    }
-    console.log("Connection to mysql db is successfull");
+dataSource.initialize().then(function() {
+    console.log("Initialized");
+}).catch(function (error) {
+    console.log("Error: ", error)
 });
 
-export default connection;
+export default dataSource;
