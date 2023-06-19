@@ -1,5 +1,5 @@
 import express from 'express';
-import router from './routes';
+import userAuthRouter from './routes/userAuthRouter';
 import connection from './middlewares/db';
 const app = express();
 
@@ -10,6 +10,6 @@ app.use((req,res,next)=>{
 
 app.use(express.json());
 
-app.use(router);
+app.use(userAuthRouter);
 
 app.listen(3000);
