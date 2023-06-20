@@ -8,7 +8,7 @@ const dataSource = new typeorm.DataSource({
     password: "root",
     database: "nodeexpresstutauth",
     synchronize: true,
-    entities: [require("../entity/users")],
+    entities: [require("../entity/users"),require("../entity/currentSessions")],
 });
 
 dataSource.initialize().then(function() {

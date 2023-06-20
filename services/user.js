@@ -4,6 +4,8 @@ export const loginService = async (req,res) => {
 
     const userRepository = req.db.getRepository('Users');
 
+    const currentSessinRepository = req.db.getRepository("CurrentSessions");
+
     const userData = await userRepository.findOne({
         where: {
             name: username,
@@ -12,6 +14,7 @@ export const loginService = async (req,res) => {
     });
     
     if (Object.keys(userData).length > 0) {
+        currentSessinRepository.save({'userId':userData.id,'isLoggedIn':true, 'datetimeAuthenticated': (new Date()).toISOString()});
         res.send("Login Successfull");
     } else {
         res.send("Login Failed");
