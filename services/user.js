@@ -1,10 +1,8 @@
-
+const jwt = require('jsonwebtoken');
 export const loginService = async (req,res) => {
     const {username, password} = req.query;
 
     const userRepository = req.db.getRepository('Users');
-
-    const currentSessinRepository = req.db.getRepository("CurrentSessions");
 
     const userData = await userRepository.findOne({
         where: {
@@ -14,8 +12,14 @@ export const loginService = async (req,res) => {
     });
     
     if (Object.keys(userData).length > 0) {
-        currentSessinRepository.save({'userId':userData.id,'isLoggedIn':true, 'datetimeAuthenticated': (new Date()).toISOString()});
-        res.send("Login Successfull");
+        let jwtSecretKey = process.env.JWT_SECRET_KEY;
+        let data = {
+            time: (new Date()).toISOString(),
+            userData,
+        }
+        const token = jwt.sign(data, jwtSecretKey);
+        //currentSessinRepository.save({'userId':userData.id,'isLoggedIn':true, 'datetimeAuthenticated': (new Date()).toISOString()});
+        res.send(token);
     } else {
         res.send("Login Failed");
     }

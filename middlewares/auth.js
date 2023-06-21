@@ -1,26 +1,22 @@
+const jwt = require('jsonwebtoken');
+
 module.exports = async (req, res, next) => {
 
-    console.log("req session id>>>",req.session);
-    const currentSessinRepository = req.db.getRepository("CurrentSessions");
-    
-    const userSession = await currentSessinRepository.findOne({
-        where: {
-            userId: req.query.userId,
-        },
-    });
-
-    
-    console.log("check this here",userSession);
-    
-    if (userSession !== null && Object.keys(userSession).length > 0) {
-        if(Math.round((new Date()).getTime() - (new Date(userSession.datetimeAuthenticated).getTime()))/60000 <= 60) {
+    let jwtSecretKey = process.env.JWT_SECRET_KEY;
+    const token = req.headers['authorization'];
+    console.log(token);
+    const verified = jwt.verify(token, jwtSecretKey);
+    const userSignedData = jwt.decode(token);
+    console.log(userSignedData);
+    if (verified && userSignedData !== null && Object.keys(userSignedData).length > 0) {
+        if(Math.round((new Date()).getTime() - (new Date(userSignedData.time).getTime()))/60000 <= 60) {
             console.log("Yes true");
             next();
         } else {
             res.send("Session Expired! Please relogin");
         }
-        
     } else {
         res.send("Not Authenticated");
     }
+
 };
