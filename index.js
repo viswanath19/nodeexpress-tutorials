@@ -1,5 +1,6 @@
 import express from 'express';
 import userAuthRouter from './routes/userAuthRouter';
+import userInfoRouter from './routes/userInfoRouter';
 import connection from './middlewares/db';
 import auth from './middlewares/auth';
 import dotenv from 'dotenv';
@@ -21,9 +22,6 @@ app.use(userAuthRouter);
 
 app.use(auth);
 
-app.get("/",(req,res,next) => {
-    console.log("Entered to /");
-    res.send("Authenticated");
-})
+app.use(userInfoRouter);
 
 app.listen(3000);
