@@ -4,6 +4,7 @@ import userInfoRouter from './routes/userInfoRouter';
 import connection from './middlewares/db';
 import auth from './middlewares/auth';
 import dotenv from 'dotenv';
+import UploadObjects from './routes/UploadRoutes';
 const app = express();
 
 app.use((req,res,next) => {
@@ -23,5 +24,7 @@ app.use(userAuthRouter);
 app.use(auth);
 
 app.use(userInfoRouter);
+
+app.use(UploadObjects);
 
 app.listen(3000);
