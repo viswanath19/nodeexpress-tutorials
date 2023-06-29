@@ -1,3 +1,4 @@
+const logger = require('../logger/index').logger;
 const AWS = require('aws-sdk');
 
 export const uploadDataObjects = (req,res,next) => {
@@ -14,6 +15,7 @@ export const uploadDataObjects = (req,res,next) => {
     
     s3.putObject(data,(err,data)=>{
         if(!err) {
+            logger.info("object uploaded to s3 bukcet");
             res.send(data);
         } else {
             console.log(err);
